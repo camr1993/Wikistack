@@ -3,7 +3,9 @@ const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const layout = require("./views/layout")
-const { db, Page, User } = require('./models');
+const wikiRouter = require("./routes/wiki")
+const userRouter = require("./routes/user")
+const { db } = require('./models');
 
 db.authenticate().
 then(() => {
@@ -16,9 +18,11 @@ const app = express();
 app.use(morgan("dev"));
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended: false}));
+app.use('/wiki', wikiRouter);
+
 
 app.get("/", (req, res) => {
-    res.send(layout(`Hello World`));
+    res.redirect('/wiki');
 });
 
 // DO NOT CHANGE, VERY IMPORTANT:
