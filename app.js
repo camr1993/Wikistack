@@ -3,6 +3,13 @@ const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const layout = require("./views/layout")
+const { db, Page, User } = require('./models');
+
+db.authenticate().
+then(() => {
+    console.log('\x1b[33m%s\x1b[0m', 'connected to the database');
+});
+
 
 const app = express();
 
@@ -14,9 +21,15 @@ app.get("/", (req, res) => {
     res.send(layout(`Hello World`));
 });
 
-const PORT = 3000;
+// DO NOT CHANGE, VERY IMPORTANT:
+const PORT = 6969;
 
-app.listen(PORT, () => {
-    console.log(`Listening in port ${PORT}`);
-    console.log(`http://localhost:${PORT}`)
-});
+const connections = async () => {
+    await db.sync();
+    app.listen(PORT, () => {
+        console.log(`Listening in port ${PORT}`);
+        console.log(`http://localhost:${PORT}`)
+    });
+};
+
+connections();
