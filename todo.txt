@@ -1,0 +1,2 @@
+- Check out file path in start
+- Why do we need HTML template? What does it do?
