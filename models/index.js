@@ -32,14 +32,17 @@ const Page = db.define('page', {
   }
 });
 
-// function generateSlug (title) {
-//   return title.replace(/\s+/g, '_').replace(/\W/g, '');
-// }
-// let slug;
 
-// Page.beforeValidate((generateSlug) => {
-//   slug = generateSlug(this.title)
-// })
+// beforeValidate hook automatically uses the title field to generate slug
+// before any page instance is validated
+
+// first argument of beforeValidate is the instance of page, we want to
+// attach slug to this instance
+Page.beforeValidate(page => {
+  if (!page.slug) {
+  page.slug = page.title.replace(/\s+/g, '_').replace(/\W/g, '');
+  }
+});
 
 const User = db.define('user', {
   name: {
@@ -55,6 +58,9 @@ const User = db.define('user', {
   }
 });
 
+// This adds methods to 'Page' such as '.setAuthor.' It also creates a foreign key attribute
+// on the Page table pointing to the User table
+Page.belongsTo(User, {as: 'author'});
 
 module.exports = {
   db,

@@ -19,6 +19,7 @@ app.use(morgan("dev"));
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/wiki', wikiRouter);
+app.use('/users', userRouter);
 
 
 app.get("/", (req, res) => {
@@ -29,7 +30,7 @@ app.get("/", (req, res) => {
 const PORT = 6969;
 
 const connections = async () => {
-    await db.sync();
+    await db.sync(); //add in {force: true} within sync() to clear the tables
     app.listen(PORT, () => {
         console.log(`Listening in port ${PORT}`);
         console.log(`http://localhost:${PORT}`)

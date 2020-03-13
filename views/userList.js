@@ -1,8 +1,6 @@
 const html = require("html-template-tag");
 const layout = require("./layout");
 
-let cam = `Sup Anderson`;
-console.log(cam)
 
 module.exports = (users) => layout(html`
   <h3>Users</h3>
